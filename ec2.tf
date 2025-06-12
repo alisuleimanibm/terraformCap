@@ -4,4 +4,10 @@ resource "aws_instance" "ec2" {
   associate_public_ip_address = true
   subnet_id = aws_subnet.subnet-a.id
   vpc_security_group_ids = [aws_security_group.allow_ssh.id]
+  user_data = file("startup.sh")  
+}
+
+resource "aws_eip" "concourse-eip" {
+  vpc = true
+  instance = aws_instance.ec2.id
 }
